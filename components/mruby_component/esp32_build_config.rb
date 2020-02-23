@@ -46,6 +46,7 @@ MRuby::CrossBuild.new('esp32') do |conf|
     cc.defines << %w(MRB_STR_BUF_MIN_SIZE=20)
     cc.defines << %w(FMRB_TARGET_BUILD)
     cc.defines << %w(MRB_METHOD_T_STRUCT)
+    cc.defines << %w(ESP32)
 
     cc.defines << %w(ESP_PLATFORM)
   end
