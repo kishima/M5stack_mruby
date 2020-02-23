@@ -4,6 +4,3 @@
 [submodule "components/M5Stack"]
 	path = components/M5Stack
 	url = https://github.com/m5stack/M5Stack.git
-[submodule "components/arduino-esp32"]
-	path = components/arduino-esp32
-	url = https://github.com/espressif/arduino-esp32.git
