@@ -8,6 +8,8 @@ extern "C" {
 #include "m5mruby_ota_server.h"
 }
 
+#include "WiFiManager.h"
+
 /*
 * Application
 */
@@ -95,6 +97,44 @@ static void show_fatal_error(const char* msg,const char* detail){
   }
 }
 
+static void bootstrap_check(){
+
+  if(M5.BtnA.isPressed()){
+    M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");
+    M5MRB_DEBUG(M5MRB_LOG::INFO,"   OTA Update mode   \n");
+    M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");
+  
+    M5.Lcd.printf("[OTA Update mode]");
+    M5.update();
+
+    prepare_ota_server();
+    while(true){
+      vTaskDelay(10);
+    }
+  }
+
+  if(M5.BtnC.isPressed()){
+    M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");
+    M5MRB_DEBUG(M5MRB_LOG::INFO,"  WiFi Setting mode  \n");
+    M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");
+
+    M5.Lcd.printf("[WiFi Setting mode]");
+    M5.update();
+
+    WiFiManager *wifiManager = new WiFiManager();
+    if (!wifiManager->startConfigPortal("M5AP_Setting")) {
+      M5MRB_DEBUG(M5MRB_LOG::DEBUG,"AP setting error\n");
+    }
+
+    wifiManager->autoConnect();
+    IPAddress ipadr = WiFi.localIP();
+    M5MRB_DEBUG(M5MRB_LOG::DEBUG,"connected\n");
+    M5MRB_DEBUG(M5MRB_LOG::DEBUG,"local ip:%s\n",ipadr.toString().c_str());
+    M5MRB_DEBUG(M5MRB_LOG::DEBUG,"SSID:%s\n",WiFi.SSID());
+  }
+
+  m5mrb_dump_mem_stat();
+}
 
 static void mainTask(void *pvParameters)
 {
@@ -104,8 +144,7 @@ static void mainTask(void *pvParameters)
   m5mrb_dump_mem_stat();
 
   M5.begin();
-  //M5.Lcd.printf("mruby on M5stack fire");
-  M5.update();
+  bootstrap_check();
 
   try{
     m5mrb_system = new M5mrubySystem();
@@ -134,17 +173,6 @@ extern "C" void app_main()
   M5MRB_DEBUG(M5MRB_LOG::INFO,"Init Arduino\n");
   initArduino();
 
-  if(M5.BtnA.isPressed()){
-    M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");
-    M5MRB_DEBUG(M5MRB_LOG::INFO,"   OTA Update mode   \n");
-    M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");
-    prepare_ota_server();
-    while(true){
-      vTaskDelay(10);
-    }
-  }
-
-  m5mrb_dump_mem_stat();
   M5MRB_DEBUG(M5MRB_LOG::INFO,"Run Main Task\n");
   xTaskCreateUniversal(mainTask, "mainTask", M5MRB_MAIN_TASK_STACK_SIZE, NULL, 1, &mainTaskHandle, CONFIG_ARDUINO_RUNNING_CORE);
 }

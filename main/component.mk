@@ -1,9 +1,7 @@
-#
-# "main" pseudo-component makefile.
-#
-# (Uses default behaviour of compiling all source files in directory, adding 'include' to include path.)
 
-COMPONENT_DEPENDS := mruby_component arduino M5Stack ota_server
+COMPONENT_EXTRA_INCLUDES := $(PROJECT_PATH)/components/wifi_manager/src
+
+COMPONENT_DEPENDS := mruby_component arduino M5Stack ota_server wifi_manager DNSServer WebServer-esp32
 
 # COMPONENT_EXTRA_INCLUDES := $(PROJECT_PATH)/components/FabGL_component/src
 

@@ -22,7 +22,7 @@
 * OTA server
 */
 
-#define WIFI_SSID "M5STA"
+#define WIFI_SSID "M5MRUBYOTA"
 #define WIFI_PASSWORD "12345678"
 
 static EventGroupHandle_t wifi_event_group;
