@@ -48,6 +48,7 @@ enum class M5MRB_RCODE:int{
   OK_EMPTY,
 };
 
+#define IP32TOINT(a) (a&0x000000FF), (a&0x0000FF00)>>8, (a&0x00FF0000)>>16, (a&0xFF000000)>>24
 
 
 //debug

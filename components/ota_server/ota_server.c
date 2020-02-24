@@ -118,7 +118,7 @@ void ota_server_start()
     } while (recv_len > 0 && content_received < content_length);
 
     ESP_LOGI(TAG, "Binary transferred finished: %d bytes", content_received);
-    printf("Binary transferred finished: %d bytes", content_received);
+    printf("Binary transferred finished: %d bytes\n", content_received);
 
     ESP_ERROR_CHECK( esp_ota_end(ota_handle) );
     esp_err_t err = esp_ota_set_boot_partition(update_partition);
@@ -136,7 +136,7 @@ void ota_server_start()
     ESP_LOGI(TAG, "Next boot partition subtype %d at offset 0x%x",
     	boot_partition->subtype, boot_partition->address);
     ESP_LOGI(TAG, "Prepare to restart system!");
-    printf("Prepare to restart system!");
+    printf("Prepare to restart system!\n");
     vTaskDelay(2000);
     esp_restart();
 }

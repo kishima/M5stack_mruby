@@ -8,7 +8,7 @@ extern "C" {
 #include "m5mruby_ota_server.h"
 }
 
-#include "WiFiManager.h"
+#include "WiFi.h"
 
 /*
 * Application
@@ -104,12 +104,19 @@ static void bootstrap_check(){
     M5MRB_DEBUG(M5MRB_LOG::INFO,"   OTA Update mode   \n");
     M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");
   
-    M5.Lcd.printf("[OTA Update mode]");
+    M5.Lcd.setTextSize(2);
+    M5.Lcd.printf("[OTA Update mode]\n");
     M5.update();
-
     prepare_ota_server();
+
+    vTaskDelay(1000);
+    tcpip_adapter_ip_info_t info;
+    tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_AP,&info);
+    M5MRB_DEBUG(M5MRB_LOG::INFO,"LocalIP: %d.%d.%d.%d\n",IP32TOINT(info.ip.addr));
+    M5.Lcd.printf(" %d.%d.%d.%d\n",IP32TOINT(info.ip.addr));
+
     while(true){
-      vTaskDelay(10);
+      vTaskDelay(1000);
     }
   }
 
@@ -118,19 +125,12 @@ static void bootstrap_check(){
     M5MRB_DEBUG(M5MRB_LOG::INFO,"  WiFi Setting mode  \n");
     M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");
 
+    M5.Lcd.setTextSize(2);
     M5.Lcd.printf("[WiFi Setting mode]");
     M5.update();
-
-    WiFiManager *wifiManager = new WiFiManager();
-    if (!wifiManager->startConfigPortal("M5AP_Setting")) {
-      M5MRB_DEBUG(M5MRB_LOG::DEBUG,"AP setting error\n");
+    while(true){
+      vTaskDelay(10);
     }
-
-    wifiManager->autoConnect();
-    IPAddress ipadr = WiFi.localIP();
-    M5MRB_DEBUG(M5MRB_LOG::DEBUG,"connected\n");
-    M5MRB_DEBUG(M5MRB_LOG::DEBUG,"local ip:%s\n",ipadr.toString().c_str());
-    M5MRB_DEBUG(M5MRB_LOG::DEBUG,"SSID:%s\n",WiFi.SSID());
   }
 
   m5mrb_dump_mem_stat();
