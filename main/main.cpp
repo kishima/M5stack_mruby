@@ -1,6 +1,17 @@
 #include "m5mruby.h"
 #include "m5mruby_app.h"
 
+#include <string.h>
+#include "nvs_flash.h"
+
+extern "C" {
+#include "m5mruby_ota_server.h"
+}
+
+/*
+* Application
+*/
+
 static TaskHandle_t mainTaskHandle = NULL;
 static M5mrubySystem *m5mrb_system;
 
@@ -117,7 +128,24 @@ static void mainTask(void *pvParameters)
 extern "C" void app_main()
 {
   //Follow Arduino manner
+  ESP_ERROR_CHECK( nvs_flash_init() );
+
+  m5mrb_dump_mem_stat();
+  M5MRB_DEBUG(M5MRB_LOG::INFO,"Init Arduino\n");
   initArduino();
+
+  if(M5.BtnA.isPressed()){
+    M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");
+    M5MRB_DEBUG(M5MRB_LOG::INFO,"   OTA Update mode   \n");
+    M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");
+    prepare_ota_server();
+    while(true){
+      vTaskDelay(10);
+    }
+  }
+
+  m5mrb_dump_mem_stat();
+  M5MRB_DEBUG(M5MRB_LOG::INFO,"Run Main Task\n");
   xTaskCreateUniversal(mainTask, "mainTask", M5MRB_MAIN_TASK_STACK_SIZE, NULL, 1, &mainTaskHandle, CONFIG_ARDUINO_RUNNING_CORE);
 }
 
