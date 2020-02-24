@@ -30,5 +30,6 @@ public:
 private:
   M5mrubyEngine *m_mruby_engine;
 
+  void run_menu();
 };
 

@@ -15,10 +15,27 @@ M5mrubySystem::~M5mrubySystem()
 const char* sample_script = 
 #include "./sample/display.rb"
 ;
+const char* launcher_script = 
+#include "./app/launcher.rb"
+;
 
 void M5mrubySystem::run()
 {
+  //TODO
+  /***
+  * OTA firmware update
+  * Launcher app (mruby)
+  * Remote load/run script
+  * Remote mirb
+  ****/
+  run_menu();
+
   m_mruby_engine->exec(sample_script);
 }
 
+
+void M5mrubySystem::run_menu()
+{
+  //m_mruby_engine->exec(launcher_script);
+}
 
