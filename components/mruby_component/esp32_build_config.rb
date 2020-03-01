@@ -34,6 +34,7 @@ MRuby::CrossBuild.new('esp32') do |conf|
     cc.include_paths << ENV["COMPONENT_INCLUDES"].split(' ')
     cc.include_paths << ENV["COMPONENT_EXTRA_INCLUDES"]&.split(' ')
     cc.flags << '-Wno-maybe-uninitialized'
+    cc.flags << '-DMRB_SW_INTERRUPT'
     #cc.flags << '-g3 -O0'
     cc.flags.collect! { |x|
       if x.kind_of?(Array) and x.size == 1
