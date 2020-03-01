@@ -28,6 +28,8 @@ end
 MRuby::CrossBuild.new('esp32') do |conf|
   toolchain :gcc
 
+  #p ENV["COMPONENT_INCLUDES"].split(' ')
+  #p ENV["COMPONENT_EXTRA_INCLUDES"]&.split(' ')
   conf.cc do |cc|
     cc.include_paths << ENV["COMPONENT_INCLUDES"].split(' ')
     cc.include_paths << ENV["COMPONENT_EXTRA_INCLUDES"]&.split(' ')
@@ -76,8 +78,15 @@ MRuby::CrossBuild.new('esp32') do |conf|
   conf.gem :core => "mruby-kernel-ext"
   conf.gem :core => "mruby-toplevel-ext"
 
-  conf.gem :github => "mruby-esp32/mruby-esp32-wifi"
   conf.gem :github => "kishima/mruby-esp32-system",checksum_hash: 'dd79f5a8c1886dc43b16c95fd6cf7ff7938baae8', branch: 'master'
+  conf.gem :github => "kishima/mruby-esp32-wifi"
+  conf.gem :github => "kishima/mruby-esp32-gpio"
+  conf.gem :github => "kishima/mruby-esp32-i2c"
+  conf.gem :github => 'kishima/mruby-io', :branch => 'esp32'
+  conf.gem :github => 'kishima/mruby-socket', :branch => 'esp32'
+  conf.gem :github => "kishima/mruby-interrupt"
+  conf.gem :github => "kishima/mruby-esp32-tinyhttpserver"
   conf.gem :github => "kishima/mruby-esp32-m5stack"
+  
 end
 

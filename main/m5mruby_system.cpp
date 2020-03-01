@@ -23,7 +23,6 @@ void M5mrubySystem::run()
 {
   //TODO
   /***
-  * OTA firmware update
   * Launcher app (mruby)
   * Remote load/run script
   * Remote mirb
@@ -36,6 +35,6 @@ void M5mrubySystem::run()
 
 void M5mrubySystem::run_menu()
 {
-  //m_mruby_engine->exec(launcher_script);
+  m_mruby_engine->exec(launcher_script);
 }
 
