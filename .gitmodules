@@ -6,4 +6,4 @@
 	url = https://github.com/m5stack/M5Stack.git
 [submodule "components/mruby_component/mruby"]
 	path = components/mruby_component/mruby
-	url = https://github.com/mruby/mruby.git
+	url = https://github.com/kishima/mruby.git
