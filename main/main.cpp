@@ -97,9 +97,12 @@ static void show_fatal_error(const char* msg,const char* detail){
   }
 }
 
-static void bootstrap_check(){
+static void bootstrap_check(){ 
+  int btn_a = M5.BtnA.isPressed();
+  int btn_b = M5.BtnB.isPressed();
+  int btn_c = M5.BtnC.isPressed();
 
-  if(M5.BtnA.isPressed()){
+  if(btn_a||btn_b){
     M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");
     M5MRB_DEBUG(M5MRB_LOG::INFO,"   OTA Update mode   \n");
     M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");
@@ -107,20 +110,29 @@ static void bootstrap_check(){
     M5.Lcd.setTextSize(2);
     M5.Lcd.printf("[OTA Update mode]\n");
     M5.update();
-    prepare_ota_server();
+    if(btn_a){
+      prepare_ota_server(0);
+    }else{
+      prepare_ota_server(1);
+    }
 
-    vTaskDelay(1000);
-    tcpip_adapter_ip_info_t info;
-    tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_AP,&info);
-    M5MRB_DEBUG(M5MRB_LOG::INFO,"LocalIP: %d.%d.%d.%d\n",IP32TOINT(info.ip.addr));
-    M5.Lcd.printf(" %d.%d.%d.%d\n",IP32TOINT(info.ip.addr));
-
+    if(btn_a){
+      vTaskDelay(1000);
+      tcpip_adapter_ip_info_t info;
+      tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_AP,&info);
+      M5MRB_DEBUG(M5MRB_LOG::INFO,"LocalIP: %d.%d.%d.%d\n",IP32TOINT(info.ip.addr));
+      M5.Lcd.printf(" %d.%d.%d.%d\n",IP32TOINT(info.ip.addr));
+    }else{
+      vTaskDelay(5000);
+      M5MRB_DEBUG(M5MRB_LOG::INFO,"LocalIP: %s\n",ota_sta_ip_addr());
+      M5.Lcd.printf(" %s\n",ota_sta_ip_addr());
+    }
     while(true){
       vTaskDelay(1000);
     }
   }
 
-  if(M5.BtnC.isPressed()){
+  if(btn_c){
     M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");
     M5MRB_DEBUG(M5MRB_LOG::INFO,"  WiFi Setting mode  \n");
     M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");

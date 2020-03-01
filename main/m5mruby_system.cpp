@@ -16,7 +16,8 @@ const char* sample_script =
 #include "./sample/display.rb"
 ;
 const char* launcher_script = 
-#include "./app/launcher.rb"
+//#include "./app/launcher.rb"
+#include "./app/local_test.rb"
 ;
 
 void M5mrubySystem::run()
