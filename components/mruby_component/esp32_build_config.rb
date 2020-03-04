@@ -79,10 +79,10 @@ MRuby::CrossBuild.new('esp32') do |conf|
   conf.gem :core => "mruby-kernel-ext"
   conf.gem :core => "mruby-toplevel-ext"
   
-  conf.gem :github => "mattn/mruby-http"
   conf.gem :github => "iij/mruby-regexp-pcre"
 
   conf.gem :github => "kishima/mruby-esp32-system",checksum_hash: 'dd79f5a8c1886dc43b16c95fd6cf7ff7938baae8', branch: 'master'
+  conf.gem :github => "kishima/mruby-http"
   conf.gem :github => "kishima/mruby-esp32-wifi"
   conf.gem :github => "kishima/mruby-esp32-gpio"
   conf.gem :github => "kishima/mruby-esp32-i2c"
