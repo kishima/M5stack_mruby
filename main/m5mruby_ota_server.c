@@ -86,6 +86,7 @@ static void initialise_wifi_station(void)
 	ESP_ERROR_CHECK( esp_wifi_init(&cfg) );
 	ESP_ERROR_CHECK( esp_wifi_set_storage(WIFI_STORAGE_RAM) );
 
+  /*
   const char *ssid = "";
   const char *password = "";
 	wifi_config_t wifi_config;
@@ -93,8 +94,9 @@ static void initialise_wifi_station(void)
   strcpy((char*)wifi_config.sta.ssid,ssid);
   strcpy((char*)wifi_config.sta.password,password);
 
-	ESP_ERROR_CHECK( esp_wifi_set_mode(WIFI_MODE_STA) );
 	ESP_ERROR_CHECK( esp_wifi_set_config(WIFI_IF_STA, &wifi_config) );
+  */
+	ESP_ERROR_CHECK( esp_wifi_set_mode(WIFI_MODE_STA) );
 	ESP_ERROR_CHECK( esp_wifi_start() );
 
 }

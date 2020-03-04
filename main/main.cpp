@@ -97,6 +97,35 @@ static void show_fatal_error(const char* msg,const char* detail){
   }
 }
 
+static void smart_config()
+{
+  //Init WiFi as Station, start SmartConfig
+  WiFi.mode(WIFI_AP_STA);
+  WiFi.beginSmartConfig();
+
+  //Wait for SmartConfig packet from mobile
+  printf("Waiting for SmartConfig.\n");
+  while (!WiFi.smartConfigDone()) {
+    delay(500);
+    printf(".");
+  }
+
+  printf("\n");
+  printf("SmartConfig received.\n");
+
+  //Wait for WiFi to connect to AP
+  printf("Waiting for WiFi\n");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    printf(".");
+  }
+
+  printf("\nWiFi Connected.\n");
+
+  printf("IP Address: ");
+  printf("%d.%d.%d.%d\n",IP32TOINT(WiFi.localIP()));
+}
+
 static void bootstrap_check(){ 
   int btn_a = M5.BtnA.isPressed();
   int btn_b = M5.BtnB.isPressed();
@@ -133,13 +162,14 @@ static void bootstrap_check(){
   }
 
   if(btn_c){
+    smart_config();
     M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");
     M5MRB_DEBUG(M5MRB_LOG::INFO,"  WiFi Setting mode  \n");
     M5MRB_DEBUG(M5MRB_LOG::INFO,"=====================\n");
-
     M5.Lcd.setTextSize(2);
     M5.Lcd.printf("[WiFi Setting mode]");
     M5.update();
+    smart_config();
     while(true){
       vTaskDelay(10);
     }

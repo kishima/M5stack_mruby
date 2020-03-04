@@ -6,4 +6,3 @@ old1*
 spiffs_image
 .DS_Store
 *.bin
-main/app/local_test.rb
