@@ -86,14 +86,11 @@ static void initialise_wifi_station(void)
 	ESP_ERROR_CHECK( esp_wifi_init(&cfg) );
 	ESP_ERROR_CHECK( esp_wifi_set_storage(WIFI_STORAGE_RAM) );
 
-  const char *ssid = "BCW710J-B0B1A-G";
-  const char *password = "a48f3888cff3a";
+  const char *ssid = "";
+  const char *password = "";
 	wifi_config_t wifi_config;
   memset((void *)&wifi_config, 0, sizeof(wifi_config_t));
-  //snprintf(wifi_config.sta.ssid, sizeof(wifi_config.sta.ssid), "%s", ssid);
-  strcpy((char*)wifi_config.ap.ssid,ssid);
-
-  //snprintf(wifi_config.sta.password, sizeof(wifi_config.sta.password), "%s", password);
+  strcpy((char*)wifi_config.sta.ssid,ssid);
   strcpy((char*)wifi_config.sta.password,password);
 
 	ESP_ERROR_CHECK( esp_wifi_set_mode(WIFI_MODE_STA) );

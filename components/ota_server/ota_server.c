@@ -100,6 +100,7 @@ void ota_server_start()
                 char *content_length_start_p = strstr(ota_buff, content_length_start) + strlen(content_length_start);
                 sscanf(content_length_start_p, "%d", &content_length);
                 ESP_LOGI(TAG, "Detected content length: %d", content_length);
+                printf("Detected content length: %d\n", content_length);
                 ESP_ERROR_CHECK( esp_ota_begin(update_partition, OTA_SIZE_UNKNOWN, &ota_handle) );
                 const char *header_end = "\r\n\r\n";
                 char *body_start_p = strstr(ota_buff, header_end) + strlen(header_end);
@@ -110,6 +111,12 @@ void ota_server_start()
             } else {
                 esp_ota_write(ota_handle, ota_buff, recv_len);
                 content_received += recv_len;
+                int per = content_received*100/content_length;
+                static int last_per = 0;
+                if(per>last_per && per % 10 == 0){
+                  printf("Content_received: %d %%\n", per);
+                }
+                last_per = per;
             }
         }
         else if (recv_len < 0) {
