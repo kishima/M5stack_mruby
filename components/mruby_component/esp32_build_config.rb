@@ -35,6 +35,8 @@ MRuby::CrossBuild.new('esp32') do |conf|
     cc.include_paths << ENV["COMPONENT_EXTRA_INCLUDES"]&.split(' ')
     cc.flags << '-Wno-maybe-uninitialized'
     cc.flags << '-DMRB_SW_INTERRUPT'
+    cc.flags << '-DM5STACK_MPU6886'
+    
     #cc.flags << '-g3 -O0'
     cc.flags.collect! { |x|
       if x.kind_of?(Array) and x.size == 1
@@ -82,7 +84,7 @@ MRuby::CrossBuild.new('esp32') do |conf|
   conf.gem :github => "iij/mruby-regexp-pcre"
 
   conf.gem :github => "kishima/mruby-esp32-system",checksum_hash: 'dd79f5a8c1886dc43b16c95fd6cf7ff7938baae8', branch: 'master'
-  conf.gem :github => "kishima/mruby-http"
+  conf.gem :github => "kishima/mruby-http", checksum_hash: '8af405fe4b96bc56619ead2f9ca0dc0719955269'
   conf.gem :github => "kishima/mruby-esp32-wifi"
   conf.gem :github => "kishima/mruby-esp32-gpio"
   conf.gem :github => "kishima/mruby-esp32-i2c"

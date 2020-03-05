@@ -27,34 +27,22 @@ end
 Storage::mount_spiffs('/spiffs')
 
 server = TinyHttpServer.new({
-  :DocumentRoot=>"./",
+# :DocumentRoot=>"./",
   :Port=>80 })
 
 server.mount('/index.html','/spiffs/index.html')
 
 server.mount_proc('/load.html') do |req,res|
   puts req[:method]
-  aplist = "<p>SSID</p>"
+  list = "<p>TEST</p>"
   res[:body]= <<EOD
 <html>
  <head>
   <meta charset="utf-8">
-  <title>WiFi AP list</title>
+  <title>TEST</title>
  </head>
  <body>
-  <p>WiFi AP list</p>
-  <div>#{aplist}</div>
-  <form action="/form.cgi" method="post">
-    <div>
-      <label for="apname">AP name</label>
-      <input type="text" id="apname" name="apname">
-    </div>
-    <div>
-      <label for="password">Password</label>
-      <input type="text" id="pass" name="pass">
-    </div>
-  <input type="submit" value="Set">
-  </form>
+  <div>#{list}</div>
  </body>
 </html>
 EOD
