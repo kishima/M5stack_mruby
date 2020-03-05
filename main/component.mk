@@ -3,6 +3,5 @@
 
 COMPONENT_DEPENDS := mruby_component arduino M5Stack ota_server
 
-CFLAGS += -D LOG_LOCAL_LEVEL=ESP_LOG_DEBUG -DM5STACK_MPU6886
-CPPFLAGS += -fpermissive
+CPPFLAGS += -fpermissive -DM5STACK_MPU6886
 

@@ -35,7 +35,6 @@ MRuby::CrossBuild.new('esp32') do |conf|
     cc.include_paths << ENV["COMPONENT_EXTRA_INCLUDES"]&.split(' ')
     cc.flags << '-Wno-maybe-uninitialized'
     cc.flags << '-DMRB_SW_INTERRUPT'
-    cc.flags << '-DM5STACK_MPU6886'
     
     #cc.flags << '-g3 -O0'
     cc.flags.collect! { |x|
@@ -61,6 +60,7 @@ MRuby::CrossBuild.new('esp32') do |conf|
 
     cxx.flags.collect! { |x| x.gsub('-MP', '') }
     cxx.flags << '-fpermissive'
+    cxx.flags << '-DM5STACK_MPU6886'
     #cxx.flags << '-g3 -O0'
 
     cxx.defines = conf.cc.defines.dup

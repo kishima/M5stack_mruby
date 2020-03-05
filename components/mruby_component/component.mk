@@ -6,7 +6,7 @@ COMPONENT_EXTRA_INCLUDES := $(PROJECT_PATH)/components/M5Stack/src $(PROJECT_PAT
 
 COMPONENT_ADD_INCLUDEDIRS := mruby/include/
 
-CFLAGS += -Wno-char-subscripts -Wno-pointer-sign
+CFLAGS += -Wno-char-subscripts -Wno-pointer-sign -DM5STACK_MPU6886
 
 build:
 	cd $(COMPONENT_PATH)/mruby && COMPONENT_EXTRA_INCLUDES="$(COMPONENT_EXTRA_INCLUDES)" MRUBY_CONFIG=../esp32_build_config.rb $(MAKE)
